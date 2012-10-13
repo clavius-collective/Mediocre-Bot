@@ -7,7 +7,7 @@ describe IRCParser do
     @test_message = IRCParser.new(@input_string)
     @test_message.input_string.should == @input_string 
     @test_message.prefix.should == "card.freenode.net"
-    @test_message.command.should == "NOTICE"
+    @test_message.command.should == "notice"
     @test_message.middle.should == ["*"]
     @test_message.trailing.should == "*** Looking up your hostname..."
   end

@@ -1,5 +1,6 @@
 class IRCParser
-  attr_reader :input_string, :prefix, :command, :middle, :trailing
+  attr_reader :input_string, :prefix, :command, :middle, :trailing, :sender_nickname, :sender_username, :sender_hostname
+  attr_accessor :channel, :privmsg_type
   
   @@letter_regex = "[a-zA-Z]"
   @@number_regex = "[0-9]"
@@ -25,7 +26,7 @@ class IRCParser
       @command_params = @stripped_input
     end
     split_input = @command_params.split(/ +/,2)
-    @command = split_input[0]
+    @command = split_input[0].downcase
     @params = split_input[1]
     split_input = @params.split(":",2)
     @middle = split_input[0].split(/ +/)
@@ -34,5 +35,13 @@ class IRCParser
     else
       @trailing = ""
     end
+  end
+  
+  def parse_user_prefix!
+    split_input = @prefix.split("!",2)
+    @sender_nickname = split_input[0]
+    split_input = split_input[1].split("@",2)
+    @sender_username = split_input[0]
+    @sender_hostname = split_input[1]
   end
 end
